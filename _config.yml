@@ -3,8 +3,8 @@ title: Code Blog
 SEOTitle: JoeBig7的博客 | Code Blog
 header-img: img/home-bg.jpg
 email: joebig19960318@gmail.com
-description: ""
-keyword: "Code,Learning,Java, JoeBig7的博客, Code Blog, 博客, 个人网站, 互联网, Web, 后段端, 程序"
+description: "code blog"
+keyword: "Code,Learning,Java, JoeBig7的博客, Code Blog, 博客, 个人网站, 互联网, Web, 后端, 程序"
 url: "https://www.zjfzjf.com"              # your host, for absolute URL
 baseurl: ""                             # for example, '/blog' if your blog hosted on 'host/blog'
 
@@ -58,7 +58,7 @@ kramdown:
 
 
 # Disqus settings
-disqus_username: hux
+disqus_username: JoeBig7
 
 # Netease settings
 netease_comment: false
@@ -100,12 +100,12 @@ page-mathjax: false
 
 
 # Friends
-friends: [
-    {
-        title: "乱序",
-        href: "http://mida.re/"
-    },{
-        title: "Sherry Wu",
-        href: "https://xuechundesign.github.io"
-    }
-]
+#friends: [
+#    {
+#        title: "乱序",
+#        href: "http://mida.re/"
+#    },{
+#        title: "Sherry Wu",
+#        href: "https://xuechundesign.github.io"
+#    }
+#]

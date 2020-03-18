@@ -1,0 +1,49 @@
+I"<h2 id="个人信息">个人信息</h2>
+<ul>
+  <li>姓名：Joe</li>
+  <li>专业: 软件工程专业</li>
+  <li>毕业年份：2018</li>
+</ul>
+
+<h2 id="联系方式">联系方式</h2>
+<ul>
+  <li>邮箱: joebig19960318@gmail.com</li>
+</ul>
+
+<h2 id="主要技能">主要技能</h2>
+<p>本人主要从事的是后端开发，主要技能如下：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>类型</th>
+      <th>内容</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>语言</td>
+      <td>Java、Js、Shell</td>
+    </tr>
+    <tr>
+      <td>工具</td>
+      <td>Git、Maven、IDEA、Robo 3T、RDM…</td>
+    </tr>
+    <tr>
+      <td>数据库</td>
+      <td>Mysql、Mongo、Redis</td>
+    </tr>
+    <tr>
+      <td>其他</td>
+      <td>Linux、Elasticsearch、Docker…</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="个人项目">个人项目</h2>
+<ul>
+  <li><a href="https://github.com/Joebig7/springboot-example">springboot-example</a>(一个demo项目，不定时更新springboot的使用案例)</li>
+  <li><a href="https://github.com/Joebig7/popidea">popidea</a>(一个知识分享问答平台项目)</li>
+  <li><a href="https://github.com/Joebig7/swagger-autoconfigure-demo">swagger-autoconfigure-demo</a>(实现的一个swagger-spring-boot-starter，开箱即用)</li>
+</ul>
+:ET

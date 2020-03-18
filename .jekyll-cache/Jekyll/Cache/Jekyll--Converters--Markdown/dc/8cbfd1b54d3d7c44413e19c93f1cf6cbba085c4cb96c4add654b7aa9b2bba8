@@ -1,0 +1,49 @@
+I"P<h2 id="personal-information">Personal information</h2>
+<ul>
+  <li>name：Joe</li>
+  <li>major: software engineering</li>
+  <li>Graduation Year ：2018</li>
+</ul>
+
+<h2 id="联系方式">联系方式</h2>
+<ul>
+  <li>email: joebig19960318@gmail.com</li>
+</ul>
+
+<h2 id="major-skills">Major Skills</h2>
+<p>I am mainly engaged in back-end development, and my main skills are as follows:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Content</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Language</td>
+      <td>Java、Js、Shell</td>
+    </tr>
+    <tr>
+      <td>Tool</td>
+      <td>Git、Maven、IDEA、Robo 3T、RDM…</td>
+    </tr>
+    <tr>
+      <td>DataBase</td>
+      <td>Mysql、Mongo、Redis</td>
+    </tr>
+    <tr>
+      <td>Others</td>
+      <td>Linux、Elasticsearch、Docker…</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="personal-projects">Personal projects</h2>
+<ul>
+  <li><a href="https://github.com/Joebig7/springboot-example">springboot-example</a>(A demo project that updates the use cases of springboot from time to time)</li>
+  <li><a href="https://github.com/Joebig7/popidea">popidea</a>(A knowledge sharing question and answer platform project)</li>
+  <li><a href="https://github.com/Joebig7/swagger-autoconfigure-demo">swagger-autoconfigure-demo</a>(A swagger-spring-boot-starter which is out of the box)</li>
+</ul>
+:ET

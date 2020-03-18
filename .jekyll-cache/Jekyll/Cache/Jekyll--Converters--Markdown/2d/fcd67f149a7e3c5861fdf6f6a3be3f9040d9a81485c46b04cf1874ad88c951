@@ -1,0 +1,433 @@
+I"z;<h2 id="前言">前言</h2>
+<p>SpringBoot支持我们自己定义starter，在编写starter之前，我们需要知道如何自定义Auto-configuration，然后在进一步创建Starter。通过本文让我们一步步了解如何创建一个完整的Starter.</p>
+
+<h2 id="auto-configured-beans">Auto-configured Beans</h2>
+<p>这是第一个概念，自动配置的Bean。在SpringBoot的底层（spring.factories），提供了很多自动配置的类，实现这样一个类通常是@Configuration标注的一个类。并且通常使用@ConditionalOnClass、@ConditionalOnMissingBean、@ConditionalOnBean等注解进行装配时候的约束, 只有检测到了相关的类或者没有声明自己的@Configuration等条件才会触发自动装配。下面看一下DataSource是如何创建Auto Configuration Bean的：</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre>@Configuration
+@ConditionalOnClass({DataSource.class, EmbeddedDatabaseType.class})
+@EnableConfigurationProperties({DataSourceProperties.class})
+@Import({DataSourcePoolMetadataProvidersConfiguration.class, DataSourceInitializationConfiguration.class})
+public class DataSourceAutoConfiguration {
+        ...
+}
+</pre></td></tr></tbody></table></code></pre></div></div>
+<hr />
+
+<h2 id="定位自动装配的候选者">定位自动装配的候选者</h2>
+<p>上面定义了自动装配的类，但是SpringBoot并不能直接识别出这些候选者。在SpringBoot中个，需要将自动装配的类配置在==META-INF/spring.factories==中，并且需要以<strong>org.springframework.boot.autoconfigure.EnableAutoConfiguration</strong>作为key，<strong>候选类</strong>作为value,具体定义如下所示:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p><strong>注意:</strong> 为了防止自动装配的这些类通过component扫描寻找额外的组件，用@Import进行组件的引用。</p>
+
+<h3 id="三个关于装配顺序的注解">三个关于装配顺序的注解</h3>
+<ul>
+  <li>@AutoConfigureAfter：可以用来在某个具体的装配类之后进行装配</li>
+  <li>@AutoConfigureBefore:可以用来在某个具体的装配类之前进行装配</li>
+  <li>@AutoConfigureOrder：和@Order作用类似，可以指定任意的加载顺序。但是该注解只试用于自动装配类</li>
+</ul>
+
+<hr />
+
+<h2 id="condition注解">Condition注解</h2>
+<p>SpringBoot提供了很多的@Conditional注解可以在@Configuration类或者@Bean方法中使用。下面一一讲解：</p>
+
+<h3 id="class-condition类条件注解">Class Condition（类条件注解）</h3>
+<p>通过Class进行条件判断主要有:</p>
+<ul>
+  <li>@ConditionalOnClass ： 如果指定的类存在就满足条件</li>
+  <li>@ConditionalOnMissingClass ： 如果指定的类不存在就满足条件</li>
+</ul>
+
+<p>代码样例如下：可以看见@ConditionalOnClass声明了如果CustomService类存在就进行装配，@ConditionalOnMissingBean声明了如果CustomService类不存在就进行装配</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="rouge-code"><pre>@Configuration
+public class MyAutoConfiguration {
+
+	@Configuration
+	@ConditionalOnClass(CustomService.class)
+	static class CustomConfiguration {
+
+		@Bean
+		@ConditionalOnMissingBean
+		public CustomService embeddedAcmeService() { ... }
+
+	}
+
+}
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<blockquote>
+  <p>需要注意的是，当注解用在method上，那么JVM会首先进行指定类的加载和引用，而作用在类上则不会有这么操作。</p>
+</blockquote>
+
+<h3 id="bean-conditionsbean条件注解">Bean Conditions（Bean条件注解）</h3>
+<p>通过Bean进行条件判断主要有:</p>
+<ul>
+  <li>@ConditionalOnBean : 如果存在指定的Bean就符合条件</li>
+  <li>@ConditionalOnMissingBean ：如果不存在指定的Bean就符合条件</li>
+</ul>
+
+<p>代码样例如下：这边声明了如果不存在myService这是bean那么就会被创建</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre>@Configuration
+public class MyAutoConfiguration {
+
+	@Bean
+	@ConditionalOnMissingBean
+	public MyService myService() { ... }
+
+}
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<blockquote>
+  <p>需要注意bean定义的顺序，因为基于bean的判断会根据已经加载到的结果进行判断，所以最好用在自动装配类，可以保证用户定义的bean已经被装配。另外上述的两个注解都不会阻止@Configuration类的创建，但是作用在类上如果不符合要求的不会被注册到容器中。</p>
+</blockquote>
+
+<h3 id="property-conditions属性条件注解">Property Conditions（属性条件注解）</h3>
+<p>通过Property进行条件判断主要有:</p>
+<ul>
+  <li>@ConditionalOnProperty： 可以通过指定属性和environment中是否匹配进行条件判断。</li>
+</ul>
+
+<blockquote>
+  <p>havingValue可以用来指定是否有期望的值，matchIfMissing如果不设置值返回设置</p>
+</blockquote>
+
+<h3 id="resource-conditions">Resource Conditions</h3>
+<p>通过Resource进行条件判断主要有:</p>
+
+<ul>
+  <li>@ConditionalOnResource :指定资源存在则满足条件</li>
+</ul>
+
+<h3 id="web-application-conditions">Web Application Conditions</h3>
+<p>用来判断是否是Web环境：</p>
+<ul>
+  <li>@ConditionalOnWebApplication</li>
+</ul>
+
+<h3 id="spel-expression-conditions">SpEL Expression Conditions</h3>
+<p>通过SpEL表达式进行条件判断：</p>
+<ul>
+  <li>@ConditionalOnExpression</li>
+</ul>
+
+<hr />
+
+<h2 id="创建自己的starter">创建自己的Starter</h2>
+<p>一个完整的Spring Boot Starter库包含如下组件：</p>
+<ul>
+  <li>autoconfigure模块：包含了自动装配的代码</li>
+  <li>starter模块：提供对autoconfigure模块的依赖，以及任何需要的额外的依赖。使用starter模块就可以使用完整的功能</li>
+</ul>
+
+<h3 id="swagger-starter的创建">Swagger Starter的创建</h3>
+<p>接下来，让我们看看如何一步步地创建一个完整的==swagger starter==</p>
+
+<h3 id="命名">命名</h3>
+<p>针对创建的项目名，比如这边创建的是swagger项目,那么就命名auto-configure module为==swagger-spring-boot-autoconfigure==,starter module就命名为==demo-spring-boot-starter==</p>
+
+<h3 id="预配置属性">预配置属性</h3>
+<p>如果想要提供starter的配置属性，需要指定的命名空间，这边是==swagger==。具体的代码如下：</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+</pre></td><td class="rouge-code"><pre>@ConfigurationProperties(prefix = "swagger")
+@EnableSwagger2
+public class SwaggerProperties {
+    /**
+     * swagger scan package
+     */
+    private String basePackage;
+
+    /**
+     * swagger document title
+     */
+    private String title = "API";
+
+    /**
+     * swagger document description
+     */
+    private String description;
+
+    /**
+     * swagger document access link
+     */
+    private String url;
+
+    /**
+     * swagger document's contact
+     */
+    private String contact = "JoeBig7";
+
+    /**
+     * swagger version
+     */
+    private String version = "1.0";
+
+    setter/getter...
+}
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="属性条件筛选">属性条件筛选</h3>
+<p>对于swagger的basePackage不能为空，这边使用Condition来判断属性的值。</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="rouge-code"><pre>public class OnSwaggerCondition implements Condition {
+    @Override
+    public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
+        String basePackage = context.getEnvironment().getProperty("swagger.basePackage");
+        if (Objects.isNull(basePackage)) {
+            throw new RuntimeException("please config basePackage first");
+        } else {
+            return true;
+        }
+    }
+}
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>同时指定义SwaggerCondition注解进行标注</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre>@Target({ElementType.TYPE, ElementType.METHOD})
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Conditional(OnSwaggerCondition.class)
+public @interface SwaggerCondition {
+}
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="自动装配具体代码">自动装配具体代码</h3>
+<p>在所有的准备工作都做好以后，对Swagger具体的装配进行编写，具体的SwaggerAutoConfiguration代码如下：</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+</pre></td><td class="rouge-code"><pre>@Configuration
+@SwaggerCondition
+@ConditionalOnProperty(name = "swagger.enabled", matchIfMissing = true)
+@ConditionalOnClass(name = {"javax.servlet.ServletRegistration", "springfox.documentation.spring.web.plugins.Docket"})
+@EnableConfigurationProperties(SwaggerProperties.class)
+public class SwaggerAutoConfiguration {
+
+
+    private SwaggerProperties swaggerProperties;
+
+    public SwaggerAutoConfiguration(SwaggerProperties swaggerProperties) {
+        this.swaggerProperties = swaggerProperties;
+    }
+
+    @ConditionalOnMissingBean(Docket.class)
+    @Bean
+    public Docket createRestApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo())
+                .select()
+                .apis(RequestHandlerSelectors.basePackage(this.swaggerProperties.getBasePackage()))
+                .paths(PathSelectors.any())
+                .build();
+    }
+
+
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title(this.swaggerProperties.getTitle())
+                .description(this.swaggerProperties.getDescription())
+                .termsOfServiceUrl(this.swaggerProperties.getUrl())
+                .contact(this.swaggerProperties.getContact())
+                .version(this.swaggerProperties.getVersion())
+                .build();
+    }
+}
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="定义好starter">定义好Starter</h3>
+<p>Starter是最后定义的目标项目，对所有的依赖进行总结，这边的pom文件如下：</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+</pre></td><td class="rouge-code"><pre><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="nt">&lt;project</span> <span class="na">xmlns=</span><span class="s">"http://maven.apache.org/POM/4.0.0"</span>
+         <span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+         <span class="na">xsi:schemaLocation=</span><span class="s">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;modelVersion&gt;</span>4.0.0<span class="nt">&lt;/modelVersion&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.mamba<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>swagger-spring-boot-starter<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>0.0.1-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;packaging&gt;</span>jar<span class="nt">&lt;/packaging&gt;</span>
+    <span class="nt">&lt;name&gt;</span>Spring Boot AutoConfiguration :: Swagger Starter<span class="nt">&lt;/name&gt;</span>
+
+    <span class="nt">&lt;properties&gt;</span>
+        <span class="nt">&lt;project.build.sourceEncoding&gt;</span>UTF-8<span class="nt">&lt;/project.build.sourceEncoding&gt;</span>
+        <span class="nt">&lt;project.reporting.outputEncoding&gt;</span>UTF-8<span class="nt">&lt;/project.reporting.outputEncoding&gt;</span>
+    <span class="nt">&lt;/properties&gt;</span>
+
+    <span class="nt">&lt;dependencies&gt;</span>
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>com.mamba<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>swagger-spring-boot-autoconfigure<span class="nt">&lt;/artifactId&gt;</span>
+            <span class="nt">&lt;version&gt;</span>0.0.1-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+    <span class="nt">&lt;/dependencies&gt;</span>
+
+    <span class="nt">&lt;dependencyManagement&gt;</span>
+        <span class="nt">&lt;dependencies&gt;</span>
+            <span class="nt">&lt;dependency&gt;</span>
+                <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+                <span class="nt">&lt;artifactId&gt;</span>spring-boot-dependencies<span class="nt">&lt;/artifactId&gt;</span>
+                <span class="nt">&lt;version&gt;</span>2.1.7.RELEASE<span class="nt">&lt;/version&gt;</span>
+                <span class="nt">&lt;type&gt;</span>pom<span class="nt">&lt;/type&gt;</span>
+                <span class="nt">&lt;scope&gt;</span>import<span class="nt">&lt;/scope&gt;</span>
+            <span class="nt">&lt;/dependency&gt;</span>
+        <span class="nt">&lt;/dependencies&gt;</span>
+    <span class="nt">&lt;/dependencyManagement&gt;</span>
+<span class="nt">&lt;/project&gt;</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<blockquote>
+  <p>注意：可以将自动装配的代码全都写到starter中，不是强制分成两个项目的。</p>
+</blockquote>
+
+<h3 id="源码">源码</h3>
+<p>项目源码参见<a href="https://github.com/Joebig7/swagger-autoconfigure-demo">传送门</a></p>
+:ET

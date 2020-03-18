@@ -1,0 +1,3 @@
+I"<h2 id="前言">前言</h2>
+<p>SpringBoot支持我们自己定义starter，在编写starter之前，我们需要知道如何自定义Auto-configuration，然后在进一步创建Starter。通过本文让我们一步步了解如何创建一个完整的Starter.</p>
+:ET

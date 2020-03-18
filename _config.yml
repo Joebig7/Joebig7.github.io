@@ -4,7 +4,7 @@ SEOTitle: JoeBig7的博客 | Code Blog
 header-img: img/home-bg.jpg
 email: joebig19960318@gmail.com
 description: "code blog"
-keyword: "Code,Learning,Java, JoeBig7的博客, Code Blog, 博客, 个人网站, 互联网, Web, 后端, 程序"
+keyword: "JoeBig7的博客,Code,Learning,Java,Code Blog, 博客, 个人网站, 互联网, Web, 后端, 程序"
 url: "https://www.zjfzjf.com"              # your host, for absolute URL
 baseurl: ""                             # for example, '/blog' if your blog hosted on 'host/blog'
 
@@ -14,8 +14,10 @@ future: true
 # SNS settings
 RSS: false
 #weibo_username:
-#zhihu_username:
+zhihu_username: joepop7
 github_username: JoeBig7
+stackoverflow_username: true
+gitlab_username: JoeBig7
 #facebook_username:
 #linkedin_username:
 
@@ -58,7 +60,7 @@ kramdown:
 
 
 # Disqus settings
-disqus_username: JoeBig7
+disqus_username: joebig7
 
 # Netease settings
 netease_comment: false

@@ -1,12 +1,13 @@
 ---
-title: "ArrayList源码详解"
-subtitle: "ArrayList"
-layout: post
-author: "JoeBig7"
+layout:     post
+title:      "ArrayList源码详解"
+subtitle:   "ArrayList"
+date:       2020-01-29 12:00:00
+author:     "JoeBig7"
 header-style: text
 tags:
-  - Java
-  - Collection
+     - Java
+     - Collection
 ---
 
 ## 定义: 一个实现了List接口的可调整大小的数组,实现了List接口所有的可选操作并且可以容纳所有类型的对象包括null,同时提供了方法来改变List容量的大小。

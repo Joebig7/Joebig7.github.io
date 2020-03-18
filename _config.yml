@@ -76,7 +76,7 @@ ba_track_id: 74016b0c62d9265cec9ebf81077b6b5f
 
 
 # Sidebar settings
-sidebar: false                           # whether or not using Sidebar.
+sidebar: true                           # whether or not using Sidebar.
 sidebar-about-description: "Less Talk,More Code"
 sidebar-avatar: /img/portrait.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
 

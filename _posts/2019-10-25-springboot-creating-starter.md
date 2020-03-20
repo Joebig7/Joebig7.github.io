@@ -4,7 +4,7 @@ title:      "自定义SpringBoot Starter"
 subtitle:   "以Spring-Boot-Swagger-Starter为例"
 date:       2019-10-25 12:00:00
 author:     "JoeBig7"
-head-style: text
+header-style: text
 catalog: true
 tags:
     - SpringBoot

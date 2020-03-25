@@ -1,4 +1,4 @@
-I"�[<h2 id="前言">前言</h2>
+I"�[<h2 id="前言">前言</h2>
 <p>首先，我们都知道HashMap是Java中提供的一种容器，它是以key-value对的形式进行数据存储。本篇文章主要是对HashMap的存储原理以及Jdk1.8中对HashMap的优化来进行讲解。在此之前可以看一下HashMap的类继承结构图如下：</p>
 
 <center>
@@ -498,9 +498,8 @@ MAXIMUM_CAPACITY，则将容量值扩大两倍（<strong>#1,#2</strong>）。</p
 <p>如果旧的数组已经有值了，那么接下来就需要resize的核心操作，将旧的链表数据移动到新的数组中去（rehash）。对于如何移动我用一面一张图来展示:</p>
 <center>
 <img src="https://s1.ax1x.com/2020/03/24/8L3UN8.png" alt="8L3UN8.png" border="0" width="700" />
-
-<center>图示：HashMap扩容机制图</center>
 </center>
+<center><h7>图示：HashMap扩容机制图</h7></center>
 
 <p>可以看到由于hashMap是以2倍扩容，所以将容量初始化成2的幂次方也是提高了扩容的效率，因为这样子的话rehash的时候不要重新进行计算，因为定位到的位置要么是在原来的索引处，要么是在<code class="highlighter-rouge">oldCap+原来的索引数</code>。可以看到HashMap还用<code class="highlighter-rouge">e.hash &amp; oldCap==0</code>将原来单链表中的数据进行了划分，如果满足条件的节点还是待在原来的索引处，不满足条件的移动到<code class="highlighter-rouge">oldCap+原来的索引数</code>这样子的话让hash更加的分散，效率也会有所提升，这也是jdk1.8的优化的地方</p>
 

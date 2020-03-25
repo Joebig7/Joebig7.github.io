@@ -124,9 +124,8 @@ HashMap通过无符号右移和按位或运算来将目标值转换为2的幂次
 在说明put是如何进行的之前，有必要先说一下HashMap的数据结构。首先HashMap是基于一个数组以及双向链表(红黑树，这是jdk1.8的优化)。这里我用一个图来进行表示：
 <center>
 <img src="https://s1.ax1x.com/2020/03/24/8q2Dqx.png" alt="8q2Dqx.png" border="0" width=750/>
-
-<center><h7>图示：HashMap数据存储结构图</h7></center>
 </center>
+<center><h7>图示：HashMap数据存储结构图</h7></center>
 
 #### put源码解析
 从上面的图中可以了解到HashMap完整的存储结构，现在来分析一下执行具体的put操作后底层到底发生了什么。
@@ -323,9 +322,8 @@ MAXIMUM_CAPACITY，则将容量值扩大两倍（**#1,#2**）。
 如果旧的数组已经有值了，那么接下来就需要resize的核心操作，将旧的链表数据移动到新的数组中去（rehash）。对于如何移动我用一面一张图来展示:
 <center>
 <img src="https://s1.ax1x.com/2020/03/24/8L3UN8.png" alt="8L3UN8.png" border="0" width=700/>
-
-<center><h7>图示：HashMap扩容机制图</h7></center>
 </center>
+<center><h7>图示：HashMap扩容机制图</h7></center>
 
 可以看到由于hashMap是以2倍扩容，所以将容量初始化成2的幂次方也是提高了扩容的效率，因为这样子的话rehash的时候不要重新进行计算，因为定位到的位置要么是在原来的索引处，要么是在`oldCap+原来的索引数`。可以看到HashMap还用`e.hash & oldCap==0`将原来单链表中的数据进行了划分，如果满足条件的节点还是待在原来的索引处，不满足条件的移动到`oldCap+原来的索引数`这样子的话让hash更加的分散，效率也会有所提升，这也是jdk1.8的优化的地方
 

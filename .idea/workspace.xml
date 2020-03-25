@@ -2,10 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="639b3b7f-ec3f-449d-a3f8-787fd0b1e1f7" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.jekyll-cache/Jekyll/Cache/Jekyll--Converters--Markdown/13/01d429e85529102d5866421e1c149f0930f264bf105c64222619028b484765" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.jekyll-cache/Jekyll/Cache/Jekyll--Converters--Markdown/3c/b0eb52d199fad0fd0a959cfffe9959f10d1783e5b2063637f596b9791c9ee4" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/img/post-jekyll.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.jekyll-cache/Jekyll/Cache/Jekyll--Converters--Markdown/1d/2492d197d6dd5cb725e8b6e2209acca862d9585c4c965cff3074c6eb761dbf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.jekyll-cache/Jekyll/Cache/Jekyll--Converters--Markdown/2a/684e17580ab30aae8501e0e3472af028d8501d8fc94adbe76e55d1a5ad0ee9" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.jekyll-cache/Jekyll/Cache/Jekyll--Converters--Markdown/97/89f6e986465026d14ea8d1de4cad65170901d9b687fcbc71a5700abf4f3aae" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.jekyll-cache/Jekyll/Cache/Jekyll--Converters--Markdown/b6/ad66d43c101a04e5b831e857f4e26a3acfe152764ecf41408b5355cc467702" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/_posts/2020-03-24-hashmap-source.md" afterPath="$PROJECT_DIR$/_posts/2020-03-24-hashmap-source.md" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -15,13 +17,13 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
+    <leaf>
       <file leaf-file-name="2020-03-24-hashmap-source.md" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/_posts/2020-03-24-hashmap-source.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="224">
-                <caret line="331" column="22" lean-forward="true" selection-start-line="331" selection-start-column="22" selection-end-line="331" selection-end-column="22" />
+              <first_editor relative-caret-position="240">
+                <caret line="326" column="0" lean-forward="false" selection-start-line="326" selection-start-column="0" selection-end-line="326" selection-end-column="41" />
                 <folding />
               </first_editor>
               <second_editor />
@@ -33,7 +35,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>selectedIndex</find>
       <find>sel-lang</find>
       <find>onLanChange</find>
       <find>github.com/h</find>
@@ -63,6 +64,7 @@
       <find>中文</find>
       <find>multilingual-sel.html</find>
       <find>图示</find>
+      <find>https</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -151,9 +153,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -166,26 +165,13 @@
               <item name="Joebig7.github.io" type="462c0819:PsiDirectoryNode" />
               <item name="_posts" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="Joebig7.github.io" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Joebig7.github.io" type="462c0819:PsiDirectoryNode" />
-              <item name="_site" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Joebig7.github.io" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Joebig7.github.io" type="462c0819:PsiDirectoryNode" />
-              <item name="img" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Joebig7.github.io" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Joebig7.github.io" type="462c0819:PsiDirectoryNode" />
-              <item name="img" type="462c0819:PsiDirectoryNode" />
-              <item name="post" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -295,6 +281,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23764706" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -302,9 +289,9 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32832617" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19017857" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.58941174" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4752941" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.41882354" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2360515" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23927039" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.050429184" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18401287" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30117646" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -633,7 +620,6 @@
         <state split_layout="SPLIT">
           <first_editor relative-caret-position="154">
             <caret line="7" column="13" lean-forward="false" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-            <folding />
           </first_editor>
           <second_editor />
         </state>
@@ -644,7 +630,6 @@
         <state split_layout="SPLIT">
           <first_editor relative-caret-position="0">
             <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="11" selection-end-column="3" />
-            <folding />
           </first_editor>
           <second_editor />
         </state>
@@ -653,8 +638,8 @@
     <entry file="file://$PROJECT_DIR$/_posts/2020-03-24-hashmap-source.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="224">
-            <caret line="331" column="22" lean-forward="true" selection-start-line="331" selection-start-column="22" selection-end-line="331" selection-end-column="22" />
+          <first_editor relative-caret-position="240">
+            <caret line="326" column="0" lean-forward="false" selection-start-line="326" selection-start-column="0" selection-end-line="326" selection-end-column="41" />
             <folding />
           </first_editor>
           <second_editor />

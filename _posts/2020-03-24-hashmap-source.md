@@ -14,10 +14,9 @@ tags:
 ## 前言
 首先，我们都知道HashMap是Java中提供的一种容器，它是以key-value对的形式进行数据存储。本篇文章主要是对HashMap的存储原理以及Jdk1.8中对HashMap的优化来进行讲解。在此之前可以看一下HashMap的类继承结构图如下：
 
- 
-<img src="https://s1.ax1x.com/2020/03/24/8b7cse.png" alt="8b7cse.png" width=500 />
- 
- 
+
+![8b7cse.png](https://s1.ax1x.com/2020/03/24/8b7cse.png)
+
 
 ## 使用案例
 在对源码进行解析的之前，我们先来看一个简单的创建存储案例，本文之后的分析基于该案例进行:

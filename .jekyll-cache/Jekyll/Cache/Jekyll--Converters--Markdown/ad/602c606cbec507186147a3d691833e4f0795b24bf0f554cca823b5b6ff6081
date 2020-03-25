@@ -1,10 +1,7 @@
-I"�[<h2 id="前言">前言</h2>
+I"j[<h2 id="前言">前言</h2>
 <p>首先，我们都知道HashMap是Java中提供的一种容器，它是以key-value对的形式进行数据存储。本篇文章主要是对HashMap的存储原理以及Jdk1.8中对HashMap的优化来进行讲解。在此之前可以看一下HashMap的类继承结构图如下：</p>
 
-<p>
-    <img src="https://s1.ax1x.com/2020/03/24/8b7cse.png" alt="8b7cse.png" width="500" />
-    <em>image_caption</em>
-</p>
+<p><img src="https://s1.ax1x.com/2020/03/24/8b7cse.png" alt="8b7cse.png" /></p>
 
 <h2 id="使用案例">使用案例</h2>
 <p>在对源码进行解析的之前，我们先来看一个简单的创建存储案例，本文之后的分析基于该案例进行:</p>
@@ -163,10 +160,10 @@
 
 <h4 id="存储机制">存储机制</h4>
 <p>在说明put是如何进行的之前，有必要先说一下HashMap的数据结构。首先HashMap是基于一个数组以及双向链表(红黑树，这是jdk1.8的优化)。这里我用一个图来进行表示：</p>
-<center>
-<img src="https://s1.ax1x.com/2020/03/24/8q2Dqx.png" alt="8q2Dqx.png" border="0" width="750" />
+
+<p><img src="https://s1.ax1x.com/2020/03/24/8q2Dqx.png" alt="8q2Dqx.png" /></p>
+
 <center><h7>图示：HashMap数据存储结构图</h7></center>
-</center>
 
 <h4 id="put源码解析">put源码解析</h4>
 <p>从上面的图中可以了解到HashMap完整的存储结构，现在来分析一下执行具体的put操作后底层到底发生了什么。</p>
@@ -495,9 +492,9 @@ MAXIMUM_CAPACITY，则将容量值扩大两倍（<strong>#1,#2</strong>）。</p
 <p>接下来是初始化一个新的table数组，如果是第一次进来，对应的就是put中数组为空时的resize，那么到这边resize就结束了，返回数组即可(<em>*#7</em>)。</p>
 
 <p>如果旧的数组已经有值了，那么接下来就需要resize的核心操作，将旧的链表数据移动到新的数组中去（rehash）。对于如何移动我用一面一张图来展示:</p>
-<center>
-<img src="https://s1.ax1x.com/2020/03/24/8L3UN8.png" alt="8L3UN8.png" border="0" width="700" />
-</center>
+
+<p><img src="https://s1.ax1x.com/2020/03/24/8L3UN8.png" alt="8L3UN8.png" /></p>
+
 <center><h7>图示：HashMap扩容机制图</h7></center>
 
 <p>可以看到由于hashMap是以2倍扩容，所以将容量初始化成2的幂次方也是提高了扩容的效率，因为这样子的话rehash的时候不要重新进行计算，因为定位到的位置要么是在原来的索引处，要么是在<code class="highlighter-rouge">oldCap+原来的索引数</code>。可以看到HashMap还用<code class="highlighter-rouge">e.hash &amp; oldCap==0</code>将原来单链表中的数据进行了划分，如果满足条件的节点还是待在原来的索引处，不满足条件的移动到<code class="highlighter-rouge">oldCap+原来的索引数</code>这样子的话让hash更加的分散，效率也会有所提升，这也是jdk1.8的优化的地方</p>

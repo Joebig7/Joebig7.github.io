@@ -14,9 +14,10 @@ tags:
 ## 前言
 首先，我们都知道HashMap是Java中提供的一种容器，它是以key-value对的形式进行数据存储。本篇文章主要是对HashMap的存储原理以及Jdk1.8中对HashMap的优化来进行讲解。在此之前可以看一下HashMap的类继承结构图如下：
 
-
-![8b7cse.png](https://s1.ax1x.com/2020/03/24/8b7cse.png)
-
+<center>
+<img src="https://s1.ax1x.com/2020/03/24/8b7cse.png" alt="8b7cse.png" width=500 />
+ 
+</center>
 
 ## 使用案例
 在对源码进行解析的之前，我们先来看一个简单的创建存储案例，本文之后的分析基于该案例进行:
@@ -123,8 +124,8 @@ HashMap通过无符号右移和按位或运算来将目标值转换为2的幂次
 在说明put是如何进行的之前，有必要先说一下HashMap的数据结构。首先HashMap是基于一个数组以及双向链表(红黑树，这是jdk1.8的优化)。这里我用一个图来进行表示：
 <center>
 <img src="https://s1.ax1x.com/2020/03/24/8q2Dqx.png" alt="8q2Dqx.png" border="0" width=750/>
-</center>
 <center><h7>图示：HashMap数据存储结构图</h7></center>
+</center>
 
 #### put源码解析
 从上面的图中可以了解到HashMap完整的存储结构，现在来分析一下执行具体的put操作后底层到底发生了什么。

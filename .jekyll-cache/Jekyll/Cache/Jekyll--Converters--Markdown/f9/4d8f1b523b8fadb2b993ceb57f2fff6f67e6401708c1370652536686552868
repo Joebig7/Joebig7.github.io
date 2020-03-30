@@ -1,0 +1,3 @@
+I"<h2 id="前言">前言</h2>
+<p>当我们在Java并发编程中，可能会时常使用<strong>ReentrantLock</strong>、<strong>Semaphore</strong>、<strong>CountDwonLatch</strong>等同步工具保证线程安全，但是我们可能对它们到底是如何保证线程安全并不是很清楚。本篇文章就通过详细解析他们的共同依赖类<code class="highlighter-rouge">AbstractQueuedSynchronizer</code>来探究它们是如何实现对资源的控制的。为了便于分析，本篇文章主要从<strong>ReentrantLock</strong>为切入点，阅读本文之后你们可以自行分析其他实现类的实现逻辑。</p>
+:ET

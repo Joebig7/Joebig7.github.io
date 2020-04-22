@@ -1,0 +1,5 @@
+I"�<h2 id="前言">前言</h2>
+<p>看标题就知道本篇文章主角<strong>是ConcurrentHashMap</strong>，在讲解它之前有几个问题有必要弄清楚。(本文都是基于jdk1.8进行分析)</p>
+<h3 id="什么是concurrenthashmap">什么是ConcurrentHashMap?</h3>
+<p>如果看过我之前写的关于HashMap的文章，应该知道它是基于<strong>key-value</strong>形式存储数据的一种hash存储表，ConcurrentHashMap的存储结构和HashMap是一样的。</p>
+:ET

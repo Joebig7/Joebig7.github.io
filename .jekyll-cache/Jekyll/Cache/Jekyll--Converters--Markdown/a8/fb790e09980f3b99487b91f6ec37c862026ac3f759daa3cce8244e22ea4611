@@ -37,7 +37,7 @@
 <p>如果自己买了域名并且做了解析后，只要修改CNAME文件将地址改成你自己的就可以了。</p>
 
 <h2 id="本地运行">本地运行</h2>
-<p>如果想本地编译和运行jekyll，使用<code class="highlighter-rouge">bundle exec jekyll build</code>和<code class="highlighter-rouge">bundle exec jekyll servve</code>两个命令就可以实现,效果如下：</p>
+<p>如果想本地编译和运行jekyll，使用<code class="highlighter-rouge">bundle exec jekyll build</code>和<code class="highlighter-rouge">bundle exec jekyll server</code>两个命令就可以实现,效果如下：</p>
 
 <p><img src="https://s1.ax1x.com/2020/03/20/8gtHhT.png" alt="8gtHhT.png" /></p>
 

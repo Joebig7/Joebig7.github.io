@@ -50,7 +50,7 @@ tags:
 如果自己买了域名并且做了解析后，只要修改CNAME文件将地址改成你自己的就可以了。
 
 ## 本地运行
-如果想本地编译和运行jekyll，使用`bundle exec jekyll build`和`bundle exec jekyll servve`两个命令就可以实现,效果如下：
+如果想本地编译和运行jekyll，使用`bundle exec jekyll build`和`bundle exec jekyll server`两个命令就可以实现,效果如下：
 
 ![8gtHhT.png](https://s1.ax1x.com/2020/03/20/8gtHhT.png)
 

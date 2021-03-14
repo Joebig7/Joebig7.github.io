@@ -7,8 +7,8 @@ author:     "JoeBig7"
 header-style: text
 catalog: true
 tags:
-    - SpringBoot
-    - Swagger
+     - SpringBoot
+     - Swagger
 ---
 
 ## 前言

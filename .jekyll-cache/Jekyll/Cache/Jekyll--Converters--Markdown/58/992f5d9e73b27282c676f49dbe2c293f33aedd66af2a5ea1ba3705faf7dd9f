@@ -1,0 +1,192 @@
+I"�8<h2 id="1-背景">1. 背景</h2>
+<p>首先，设想一种情境：你平常会使用一款<code class="highlighter-rouge">照片存储App</code>（以下<code class="highlighter-rouge">照片服务</code>指代），用来将自己喜欢的照片存放在上面以备随时查看。假如有一天，你想要打印其中的某张照片而且你找到了一款<code class="highlighter-rouge">打印照片App</code>（以下<code class="highlighter-rouge">打印服务</code>指代）。此时你应该怎么将照片给到打印App呢？其实这就涉及到了授权的问题，你必须让<code class="highlighter-rouge">照片服务</code>授权<code class="highlighter-rouge">打印服务</code>访问指定的照片。</p>
+
+<p>也许，最直接的方式就是把用户和密码给到<code class="highlighter-rouge">打印服务</code>，这样的话<code class="highlighter-rouge">打印服务</code>就可以代替你直接去登录<code class="highlighter-rouge">照片服务</code>拿到任意的照片。但是这种方式很明显有极大的安全风险，因为你不能保证<code class="highlighter-rouge">打印服务</code>不会访问你的其他照片并且去做坏事。因此在这种背景下，OAuth2协议应运而生。本文就围绕Oauth2为主题，解析它的具体定义以及各种模式，更重要的是不同模式的使用场景。</p>
+
+<h2 id="2-oauth2的相关概念">2. Oauth2的相关概念</h2>
+<p>在具体讲解Oauth2的定义之前，有几个概念有必要先了解一下：</p>
+
+<ul>
+  <li><strong>资源服务器（Resource Server）</strong>: 存放受保护资源的服务器，<code class="highlighter-rouge">照片存储App</code>在上面的情境中就可以看做是资源服务器</li>
+  <li><strong>资源拥有者（Resource Owner）</strong>：**：通常就是指对资源有拥有权的用户</li>
+  <li><strong>客户端（Client）</strong>： 想要访问受保护资源的对象，上面<code class="highlighter-rouge">打印照片App</code>就是一种客户端（单页应用、无线应用等也属于客户端）</li>
+  <li><strong>授权服务器（Authorization Server）</strong>：给客户端颁发授权凭证的服务器，通常是给客户端授权码、令牌等凭证</li>
+</ul>
+
+<h2 id="3-oauth2的授权模式">3. Oauth2的授权模式</h2>
+<p>本节具体讲解Oauth2四种不同的授权模式,分别是：<code class="highlighter-rouge">授权码模式</code>、<code class="highlighter-rouge">隐含模式</code>、<code class="highlighter-rouge">密码模式</code>、<code class="highlighter-rouge">客户端凭证模式</code>,以及它们不同的使用场景。</p>
+
+<h3 id="31-授权码模式authorization-code">3.1 授权码模式（Authorization Code）</h3>
+<ul>
+  <li><strong>使用场景</strong>：<code class="highlighter-rouge">授权码模式</code>是Oauth2协议里最安全的一种模式(微信、微博第三方登录都是基于该模式)，如果上面<code class="highlighter-rouge">照片服务</code>和<code class="highlighter-rouge">打印服务</code>隶属于不同公司，并且<code class="highlighter-rouge">打印服务</code>有自己的服务器。那么在这种情景下，必须要用<code class="highlighter-rouge">授权码模式</code>保证资源的安全，它的主要流程是：</li>
+</ul>
+
+<center><img src="https://z3.ax1x.com/2021/04/01/cVMES1.png" alt="cVMES1.png" border="0" /></center>
+
+<ol>
+  <li>客户端需要先向授权服务器请求授权码<code class="highlighter-rouge">code</code>，请求的格式如下：
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>http://localhost:8080/oauth/authorize?
+client_id=testClient&amp;redirect_uri=http://localhost:8080/callback&amp;response_type=code&amp;scope=read_userInfo&amp;state=x1f2xs
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+    <ul>
+      <li><strong>client_id</strong>：客户端凭证id，一般在授权服务器提前注册获取</li>
+      <li><strong>redirect_uri</strong>： 回调地址，用来回调授权码给客户端服务器</li>
+      <li><strong>response_type</strong>： 用来告诉授权服务器响应授权码</li>
+      <li><strong>scope</strong>： 需要申请访问的资源范围</li>
+      <li><strong>state</strong>： 随机数，用来防止csrf攻击</li>
+    </ul>
+  </li>
+  <li>客户端拿到授权码之后，去向授权服务器请求以获取到访问令牌<code class="highlighter-rouge">token</code>,请求格式如下：
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>curl -X POST --user testClient:testSecret http://localhost:8080/oauth/token 
+-H 'content-type:application/x-www-form-urlencoded' 
+-d "code=QvjUaf&amp;grant_type=authorization_code&amp;redirect_uri=http://localhost:8080/callback&amp;scope=read_userInfo"
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+</ol>
+
+<ul>
+  <li><strong>testClient:testSecret</strong>：表名客户端身份，客户端id和客户端秘钥</li>
+  <li><strong>code</strong>： 授权码</li>
+  <li><strong>grant_type=authorization_code</strong>： 表名授权方式是授权码模式</li>
+  <li><strong>redirect_uri</strong>：回调地址，一般后端服务器会去访问资源然后定位到首页或者用户页</li>
+  <li><strong>scope</strong>：请求资源范围</li>
+</ul>
+
+<ol>
+  <li>拿到<code class="highlighter-rouge">token</code>后，客户端就可以请求指定的api进行资源访问,请求格式如下：
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>curl -X GET http://localhost:8080/api/xxx -H 'Authorization:Bearer LIYcLu400YNX5CzJpZ39XG7J9kw'
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+    <blockquote>
+      <p>授权码模式主要涉及到<code class="highlighter-rouge">code</code>和<code class="highlighter-rouge">token</code>的获取，只有获取到token后才有权限访问资源。<code class="highlighter-rouge">code</code>是通过前端的方式传递的，但是就算<code class="highlighter-rouge">code</code>被截获，由于token是在服务器中完成请求的，一般<code class="highlighter-rouge">clientSecret</code>是不会泄露的，并且获取token还需<code class="highlighter-rouge">state</code>验证（<code class="highlighter-rouge">state</code>会和会话进行绑定），因此token泄露的风险极小,所以推荐使用这种模式来颁发token。</p>
+    </blockquote>
+  </li>
+</ol>
+
+<h3 id="32-隐含模式implicit">3.2 隐含模式（implicit）</h3>
+<ul>
+  <li><strong>使用场景</strong>：由于并不是所有的客户端都有服务器支持,假如<code class="highlighter-rouge">打印服务</code>是个<code class="highlighter-rouge">spa应用</code>，那么<code class="highlighter-rouge">授权码模式</code>很显然并不适用，因此Oauth2还提供了<code class="highlighter-rouge">隐含模式</code>来处理这种情况。它的主要流程如下：</li>
+</ul>
+
+<center><img src="https://z3.ax1x.com/2021/04/01/cVuiBF.png" alt="cVuiBF.png" border="0" /></center>
+
+<ol>
+  <li>客户端向授权服务器直接请求获取<code class="highlighter-rouge">token</code>，请求格式如下：
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>http://localhost:8080/oauth/authorize
+?client_id=testClient&amp;redirect_uri=http://localhost:8080/callback&amp;response_type=token&amp;scope=read_userInfo
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+    <ul>
+      <li><strong>client_id</strong>：客户端凭证id，一般在授权服务器提前注册获取</li>
+      <li><strong>redirect_uri</strong>： 回调地址，用来将token回调给客户端</li>
+      <li><strong>response_type</strong>： 用来告诉授权服务器响应token</li>
+      <li><strong>scope</strong>： 需要申请访问的资源范围</li>
+    </ul>
+  </li>
+</ol>
+
+<blockquote>
+  <p>需要注意的是这种模式并不是一种十分安全的模式，因为token有被泄漏的风险。因此除非是像上述这种必要的场景，一般不适用这种模式，并且在这种模式下token的失效时间需要尽可能的短。</p>
+</blockquote>
+
+<ol>
+  <li>拿到<code class="highlighter-rouge">token</code>后请求资源服务器
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>curl -X GET http://localhost:8080/api/xxx -H 'Authorization:Bearer LIYcLu400YNX5CzJpZ39XG7J9kw'
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="33-密码模式password">3.3 密码模式(password)</h3>
+<ul>
+  <li><strong>使用场景</strong>:如果<code class="highlighter-rouge">照片服务和</code>打印服务<code class="highlighter-rouge">同属一个公司，那么可能不需要很严格的安全防范。因此Oauth2还提供了</code>密码模式<code class="highlighter-rouge">来颁发</code>token`,主要流程如下:</li>
+</ul>
+
+<center><img src="https://z3.ax1x.com/2021/04/01/cVuPnU.png" alt="cVuPnU.png" border="0" /></center>
+
+<ol>
+  <li>客户端直接向授权服务器请求获取<code class="highlighter-rouge">token</code>接口,请求格式如下：
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>curl -X POST --user testClient:testSecret http://localhost:8080/oauth/token 
+-H 'content-type:application/x-www-form-urlencoded' 
+-d 'grant_type=password&amp;username=joe&amp;password=123&amp;scope=read_userInfo'
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+    <ul>
+      <li><strong>testClient:testSecret</strong>：表名客户端身份，客户端id和客户端秘钥</li>
+      <li><strong>grant_type=password</strong>： 表名授权方式是密码模式</li>
+      <li><strong>username=joe&amp;password=123</strong>：将密码和用户名传递给授权码服务器</li>
+      <li><strong>scope</strong>：请求资源范围</li>
+    </ul>
+  </li>
+</ol>
+
+<blockquote>
+  <p>这种模式严格来说是很不安全的，因为你把用户名和密码给了客户端，然后代替你去登录网站。默认也不推荐使用这种模式，除非是特别信任的系统或者是同一组织的产品。</p>
+</blockquote>
+
+<ol>
+  <li>拿到<code class="highlighter-rouge">token</code>后请求资源服务器
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>curl -X GET http://localhost:8080/api/user/info -H 'Authorization:Bearer LIYcLu400YNX5CzJpZ39XG7J9kw'
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="34-客户端凭证模式client-credentials">3.4 客户端凭证模式（Client Credentials）</h3>
+<ul>
+  <li><strong>使用场景</strong>：单纯机器和机器之间的交互，和用户并没有交互关系。那么客户端可能只需要向授权服务器注册好凭证保存下来就可以进行认证。针对这种情况，Oauth2通过<code class="highlighter-rouge">客户端凭证</code>的方式来颁发<code class="highlighter-rouge">token</code>,主要流程如下：</li>
+</ul>
+
+<center><img src="https://z3.ax1x.com/2021/04/01/cVuF74.png" alt="cVuF74.png" border="0" /></center>
+
+<ol>
+  <li>获取<code class="highlighter-rouge">token</code>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>curl -X POST --user testClient:testSecret http://localhost:8080/oauth/token 
+-H 'content-type:application/x-www-form-urlencoded' 
+-d 'grant_type=client_credentials&amp;scope=read_userInfo'
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+    <ul>
+      <li><strong>testClient:testSecret</strong>：表名客户端凭证，客户端id和客户端秘钥</li>
+      <li><strong>grant_type=client_credentials</strong>： 表名授权方式是客户端凭证模式</li>
+      <li><strong>scope</strong>：请求资源范围</li>
+    </ul>
+  </li>
+</ol>
+
+<blockquote>
+  <p>这种方式更加地简单，只需要向授权服务器申请过凭证，就可以访问资源，一般用于纯及机器之间的交互。</p>
+</blockquote>
+
+<ol>
+  <li>拿到<code class="highlighter-rouge">token</code>后请求资源服务器
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>curl -X GET http://localhost:8080/api/user/info -H 'Authorization:Bearer LIYcLu400YNX5CzJpZ39XG7J9kw'
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="4-总结">4. 总结</h2>
+<p>至此，关于oauth2协议的四种模式已经讲解完了,并且针对它们不同的使用场景也做了阐述。Oauth2协议在微服务系统盛行的今天有着很重要的作用，往往会在网关层担当权限控制的角色。并且Oauth2只是定义了协议，并不是具体的实现，像<code class="highlighter-rouge">Spring Security Oauth2</code>、<code class="highlighter-rouge">Google OAuth Java Client</code>等都对它有比较好的支持，具体的使用可以借助这些框架来展开。</p>
+
+<h2 id="5-参考资料">5. 参考资料</h2>
+<ul>
+  <li>https://oauth.net/code/java/</li>
+  <li>Oauth2 in action</li>
+  <li>https://www.ruanyifeng.com/blog/2014/05/oauth_2_0.html</li>
+</ul>
+
+<blockquote>
+  <p>转载请注明出处 http://127.0.0.1:4000/2021/04/02/oauth2/</p>
+</blockquote>
+:ET

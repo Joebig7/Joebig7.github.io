@@ -1,0 +1,3 @@
+I"�<h2 id="1-背景">1. 背景</h2>
+<p>首先，设想一种情境：你平常会使用一款<code class="highlighter-rouge">照片存储App</code>（以下<code class="highlighter-rouge">照片服务</code>指代），用来将自己喜欢的照片存放在上面以备随时查看。假如有一天，你想要打印其中的某张照片而且你找到了一款<code class="highlighter-rouge">打印照片App</code>（以下<code class="highlighter-rouge">打印服务</code>指代）。此时你应该怎么将照片给到打印App呢？其实这就涉及到了授权的问题，你必须让<code class="highlighter-rouge">照片服务</code>授权<code class="highlighter-rouge">打印服务</code>访问指定的照片。</p>
+:ET

@@ -32,11 +32,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="639b3b7f-ec3f-449d-a3f8-787fd0b1e1f7" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.jekyll-cache/Jekyll/Cache/Jekyll--Cache/b7/9606fb3afea5bd1609ed40b622142f1c98125abcfe89a76a661b0e8e343910" beforeDir="false" afterPath="$PROJECT_DIR$/.jekyll-cache/Jekyll/Cache/Jekyll--Cache/b7/9606fb3afea5bd1609ed40b622142f1c98125abcfe89a76a661b0e8e343910" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_posts/2019-10-25-springboot-creating-starter.md" beforeDir="false" afterPath="$PROJECT_DIR$/_posts/2019-10-25-springboot-creating-starter.md" afterDir="false" />
-    </list>
+    <list default="true" id="639b3b7f-ec3f-449d-a3f8-787fd0b1e1f7" name="Default" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -155,7 +151,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1584453389326</updated>
-      <workItem from="1615703516965" duration="2288000" />
+      <workItem from="1615703516965" duration="2522000" />
     </task>
     <servers />
   </component>
@@ -174,10 +170,10 @@
     </option>
   </component>
   <component name="WindowStateProjectService">
-    <state x="522" y="160" width="717" height="607" key="find.popup" timestamp="1615717842598">
+    <state x="522" y="160" width="717" height="607" key="find.popup" timestamp="1615717894399">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="522" y="160" width="717" height="607" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1615717842598" />
+    <state x="522" y="160" width="717" height="607" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1615717894399" />
   </component>
   <component name="masterDetails">
     <states>

@@ -152,6 +152,7 @@
       <option name="presentableId" value="Default" />
       <updated>1584453389326</updated>
       <workItem from="1615703516965" duration="2522000" />
+      <workItem from="1618115274662" duration="367000" />
     </task>
     <servers />
   </component>
@@ -168,6 +169,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="522" y="160" width="717" height="607" key="find.popup" timestamp="1615717894399">
